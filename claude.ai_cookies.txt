@@ -1,0 +1,21 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.claude.ai	TRUE	/	TRUE	1802499396	_fbp	fb.1.1794723396196.47584762878833890
+claude.ai	FALSE	/	TRUE	1820645037	anthropic-device-id	862231e8-c19c-4bfe-8b7a-06fa9728adad
+claude.ai	FALSE	/	TRUE	1794768237	activitySessionId	03e8f821-6c36-4ac5-ae03-32a21f23bf3f
+claude.ai	FALSE	/	TRUE	0	ion-vk	62b9a74f-c884-4456-9731-3b6411aabd25
+.claude.ai	TRUE	/	TRUE	0	_cfuvid	LoXjfHCkC.R0lPzaCyzVS5qfaY8qBOUYezwpMOWuItI-1794723396.1843202-1.0.1.1-ccF8Wxc9J8Y5h1r.MPgpINiCdy36ezZzQ4d0IlOqF90
+.claude.ai	TRUE	/	TRUE	1826261050	CH-prefers-color-scheme	dark
+.claude.ai	TRUE	/	TRUE	1826261050	ajs_anonymous_id	claudeai.v1.e543739c-8f92-43d6-87bd-06ad981349dc
+.claude.ai	TRUE	/	FALSE	1829283405	__ssid	1c1ed3d2-76b4-43c2-b1e4-1b7da22b83ce
+.claude.ai	TRUE	/	TRUE	1797142634	sessionKey	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
+.claude.ai	TRUE	/	TRUE	1797142634	sessionKeyLC	1794723433588
+.claude.ai	TRUE	/	TRUE	1797315434	routingHint	sk-ant-rh-eyJ0eXAiOiAiSldUIiwgImFsZyI6ICJFUzI1NiIsICJraWQiOiAiN0MxcWFPRnhqdWxaUjRFQnNuNk1UeUZGNWdDV2JHbFpNVDR2RklrRFFpbyJ9.eyJzdWIiOiAiMGM2MjBkMDAtN2ZmMS00NjY0LThkY2QtMDdhZGFkZjQ5MjllIiwgInYiOiAyLCAiaXNfdmVyaWZpZWQiOiB0cnVlLCAiaGFzX21lbWJlcnNoaXAiOiB0cnVlLCAib25ib2FyZGluZ19jb21wbGV0ZSI6IHRydWUsICJhZ2VfdmVyaWZpZWQiOiB0cnVlLCAicGVuZGluZ19pbnZpdGUiOiBmYWxzZSwgInBob25lX3ZlcmlmaWVkIjogZmFsc2UsICJuYW1lIjogIlx1MDVkZVx1MDVkNVx1MDVkOVx1MDVlOVx1MDVkOSIsICJsb2NhbGUiOiAiZW4tVVMiLCAiZmxhZ3MiOiBbImVkZ2VfZGVmYXVsdF9yb3V0ZSJdLCAiaWF0IjogMTc5NDcyMzQzMywgImlzcyI6ICJjbGF1ZGUtYWktcm91dGluZyJ9.RbwpIHUrPVPZjVzzhublt1-tShCN33hDKrV-iEwAfh2Lvv93cal3B26rnbYhKY2nJjva5yHlFx4FGAne8jbU2A
+.claude.ai	TRUE	/	TRUE	1826261050	lastActiveOrg	f76cd11e-5e11-400e-93c1-8b189cb9abbd
+claude.ai	FALSE	/	TRUE	1794725631	__Host-sessionBinding	AQEBEo2r1ySACAV_yF-ihIpEPQAAAABq-VcFqC4iQm2TT8cqkVv1CxnRmFT3e89Sem3c
+claude.ai	FALSE	/	TRUE	1794726237	__Host-sessionBindingGrace	AQECEo2r1ySACAV_yF-ihIpEPQAAAABq-Vld8TlwWiirW_h5MTRxOXhD2kKsbsT7EXFF
+claude.ai	FALSE	/	TRUE	1826261053	_dd_s_v2	id=a6805876-bb8c-4d25-8e2a-da2989aa79b1&created=1794723435283&aid=e914cca1-14b3-4505-90aa-108c320621e4&expire=1794725952724&c=0
+.claude.ai	TRUE	/	TRUE	1826261051	cf_clearance	ChVqcuxpRIRL9j_Gj_w2L3NQMG4w0OuEkEZC_7GpmpUBoqylI-MfmzSjcesTpvzg5ZxAgxeob65HFwEjWhUZnzI3_JJh4MY1Z2oRLv7ygBFS2q5sxlezAbIegDwwk18Q5koIKawPd6TSzoOdK8EL-amlUXzxBcvlsiE_qV3CvKsnC-4jygcS-bKMn5GnGpbmbTlx76ktqhwOth3UyS3DU3I_RslFQvXPZ27hSmi3p3B2z8kCF3wGOr4aqhKOe6CmXS0K7y3cE7vPuMh3Rtfs91YOVVT1xV7Xl7Wxfa3b0d6XvII4PQ
+.claude.ai	TRUE	/	TRUE	1794726851	__cf_bm	GLC5cJKTDKVMkmEl3q7NuKi92q2Ds3p3DU9x9GtMCl8-1794725050.6742303-1.0.1.1-w6dG.gTCfL8HPg2WBOerKKjS_TvBQFacPLp.shj87WYbEgIgL7zyNc5xtGeg21trd.rsmxSWUukDu4YLlL60ZKm9951YgDdsbqjYrcN171v4eXfN1js4LbpWJDq1_ema
