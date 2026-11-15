@@ -37,6 +37,10 @@ _GENUI_LOWER_TAGS = {
     "label", "img", "image", "link", "icon", "avatar", "chip", "tag",
     "tooltip", "popover", "dialog", "sheet", "stack", "hstack", "vstack",
     "spacer", "scroll", "table", "thead", "tbody", "tr", "td", "th",
+    # DIL / Intelligent UI vocabulary (title, subtitle, slider, charts...)
+    "title", "subtitle", "heading", "caption", "slider", "video", "audio",
+    "chart", "map", "widget", "carousel", "stat", "stats", "metric",
+    "progress", "switch", "checkbox", "textarea", "search", "nav",
 }
 # Attribute values may contain '>' inside {...} expressions or quotes
 # (e.g. onClick={()=>...}), so the tag body allows those constructs.
@@ -45,8 +49,8 @@ _GENUI_TAG_RE = re.compile(
     r"(?:\s+(?:[^>\"'{}]|\{[^}]*\}|\"[^\"]*\"|'[^']*')*)?"
     r"\s*/?>"
 )
-_GENUI_DIRECTIVE_RE = re.compile(r"\{[#@/][^}\n]*\}")
-_GENUI_PLACEHOLDER_RE = re.compile(r"\{[a-zA-Z_$][\w$]*\}")
+_GENUI_DIRECTIVE_RE = re.compile(r"\{[#@/:][^}\n]*\}|\{\^[^}\n]*\}")
+_GENUI_PLACEHOLDER_RE = re.compile(r"\$\{[^}\n]*\}|\{[a-zA-Z_$][\w$]*\}")
 
 
 def _strip_genui(text: str) -> str:
