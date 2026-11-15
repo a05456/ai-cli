@@ -1,9 +1,15 @@
 # ai-cli
 
 A full terminal chat client for **ChatGPT** and **Claude** web apps (not the
-official API) built on [`webai-provider`](https://pypi.org/project/webai-provider/)
-with a [Textual](https://textual.textualize.io/) TUI — streaming replies,
-markdown rendering, file attachments, model switching, and persistent chats.
+official API) with a [Textual](https://textual.textualize.io/) TUI —
+streaming replies, markdown rendering, file attachments, model switching,
+and persistent chats.
+
+Backends:
+- **ChatGPT** — [`webai-provider`](https://pypi.org/project/webai-provider/)
+- **Claude** — [`claude-webapi`](https://pypi.org/project/claude-webapi/)
+  (aiohttp-based; chosen because `webai-provider`'s `curl_cffi` transport gets
+  Cloudflare-challenged with HTTP 403 on claude.ai)
 
 ## Install
 
@@ -107,10 +113,11 @@ sent.
 
 ```
 src/ai_cli/
-  cookies.py   # Netscape + JSON cookie export parser + session prep
-  client.py    # async wrapper around webai-provider (chatgpt + claude)
-  clipboard.py # OSC 52 clipboard with tmux/screen/SSH handling
-  app.py       # Textual TUI with BiDi support
+  cookies.py        # Netscape + JSON cookie export parser + session prep
+  client.py         # ChatGPT session wrapper around webai-provider
+  claude_backend.py # Claude session wrapper around claude-webapi
+  clipboard.py      # OSC 52 clipboard with tmux/screen/SSH handling
+  app.py            # Textual TUI with BiDi support
 ```
 
 ## BiDi (Hebrew/Arabic) support

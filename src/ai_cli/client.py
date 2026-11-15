@@ -26,6 +26,33 @@ PROVIDERS = ("chatgpt", "claude")
 DEFAULT_PROVIDER = "chatgpt"
 
 
+# ---- shared local chat persistence --------------------------------------
+
+def load_saved() -> dict:
+    if not CHATS_FILE.is_file():
+        return {}
+    try:
+        return json.loads(CHATS_FILE.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
+
+def save_entry(name: str, provider: str, conversation_id, model) -> str | None:
+    STATE_DIR.mkdir(parents=True, exist_ok=True)
+    data = load_saved()
+    data[name] = {
+        "provider": provider,
+        "conversation_id": conversation_id,
+        "model": model,
+    }
+    CHATS_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    return conversation_id
+
+
+def resume_entry(name: str) -> dict | None:
+    return load_saved().get(name)
+
+
 class ChatSession:
     """Owns the ProviderClient and the active provider adapter."""
 
@@ -150,31 +177,8 @@ class ChatSession:
 
     # ---- local persistence ---------------------------------------------
 
-    @staticmethod
-    def _load_saved() -> dict:
-        if not CHATS_FILE.is_file():
-            return {}
-        try:
-            return json.loads(CHATS_FILE.read_text(encoding="utf-8"))
-        except Exception:
-            return {}
-
-    @staticmethod
-    def _write_saved(data: dict) -> None:
-        STATE_DIR.mkdir(parents=True, exist_ok=True)
-        CHATS_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
-
     def save_chat(self, name: str) -> str | None:
-        cid = self.conversation_id
-        data = self._load_saved()
-        data[name] = {
-            "provider": self.provider_name,
-            "conversation_id": cid,
-            "model": self.model,
-        }
-        self._write_saved(data)
-        return cid
+        return save_entry(name, self.provider_name, self.conversation_id, self.model)
 
     def resume_chat(self, name: str) -> dict | None:
-        """Return the saved entry (provider + conversation_id) or None."""
-        return self._load_saved().get(name)
+        return resume_entry(name)

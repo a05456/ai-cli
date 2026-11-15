@@ -5,3 +5,7 @@ build/
 dist/
 .venv/
 venv/
+*_cookies.txt
+*_cookies*.txt
+*_session.json
+.ai-cli/

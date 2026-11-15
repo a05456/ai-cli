@@ -16,8 +16,11 @@ from textual.containers import VerticalScroll
 from textual.message import Message
 from textual.widgets import Footer, Header, Markdown, Static, TextArea
 
-from .client import ChatSession, PROVIDERS, DEFAULT_PROVIDER
+from .client import ChatSession, load_saved, PROVIDERS, DEFAULT_PROVIDER
+from .claude_backend import ClaudeWebSession
 from .clipboard import copy_to_clipboard
+
+SESSION_CLASSES = {"chatgpt": ChatSession, "claude": ClaudeWebSession}
 
 COOKIE_DOMAIN_FILES = {
     "chatgpt": "chatgpt.com_cookies.txt",
@@ -132,7 +135,7 @@ class ChatTUI(App):
 
     def __init__(self, cookies_dir: str | None = None, provider: str = DEFAULT_PROVIDER, **kwargs):
         super().__init__(**kwargs)
-        self.session = ChatSession()
+        self.session = SESSION_CLASSES[provider if provider in SESSION_CLASSES else DEFAULT_PROVIDER]()
         self.cookies_dir = Path(cookies_dir) if cookies_dir else None
         self.provider = provider if provider in PROVIDERS else DEFAULT_PROVIDER
         self.pending_uploads: list[dict] = []
@@ -187,6 +190,13 @@ class ChatTUI(App):
                 error=True,
             )
             return False
+        # swap backend object when switching providers
+        if not isinstance(self.session, SESSION_CLASSES[provider]):
+            try:
+                await self.session.close()
+            except Exception:
+                pass
+            self.session = SESSION_CLASSES[provider]()
         try:
             await self.session.connect(provider, path)
         except Exception as e:
@@ -338,7 +348,10 @@ class ChatTUI(App):
                 await self._post_connect()
                 await self._say(f"Switched to {name}.")
         elif cmd == "new":
-            self.session.conversation_id = None
+            if hasattr(self.session, "new_chat"):
+                self.session.new_chat()
+            else:
+                self.session.conversation_id = None
             self._thoughts = ""
             await self._say("Started a new conversation.")
         elif cmd == "tmp":
@@ -387,7 +400,7 @@ class ChatTUI(App):
             cid = self.session.save_chat(name)
             await self._say(f"Chat saved as '{name}' (cid: {cid or 'new'})")
         elif cmd == "chats":
-            saved = ChatSession._load_saved()
+            saved = load_saved()
             if not saved:
                 await self._say("No saved chats. Use /save <name>.")
             else:
