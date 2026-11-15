@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+import re
 import shlex
 import sys
 import time
@@ -26,6 +27,42 @@ COOKIE_DOMAIN_FILES = {
     "chatgpt": "chatgpt.com_cookies.txt",
     "claude": "claude.ai_cookies.txt",
 }
+
+# ChatGPT's generative-UI markup: capitalized components (<AsyncImage/>,
+# <Entity/>, <Cite/>) plus lowercase DSL tags and {@...}/{#each ...} directives.
+_GENUI_LOWER_TAGS = {
+    "badge", "row", "box", "grid", "grid-item", "text", "button",
+    "radio-group", "radio", "divider", "paper", "card", "modal", "tabs",
+    "tab", "list", "list-item", "input", "select", "option", "form",
+    "label", "img", "image", "link", "icon", "avatar", "chip", "tag",
+    "tooltip", "popover", "dialog", "sheet", "stack", "hstack", "vstack",
+    "spacer", "scroll", "table", "thead", "tbody", "tr", "td", "th",
+}
+# Attribute values may contain '>' inside {...} expressions or quotes
+# (e.g. onClick={()=>...}), so the tag body allows those constructs.
+_GENUI_TAG_RE = re.compile(
+    r"<(/?)([A-Za-z][\w.-]*)"
+    r"(?:\s+(?:[^>\"'{}]|\{[^}]*\}|\"[^\"]*\"|'[^']*')*)?"
+    r"\s*/?>"
+)
+_GENUI_DIRECTIVE_RE = re.compile(r"\{[#@/][^}\n]*\}")
+_GENUI_PLACEHOLDER_RE = re.compile(r"\{[a-zA-Z_$][\w$]*\}")
+
+
+def _strip_genui(text: str) -> str:
+    """Remove ChatGPT rich-UI markup, keeping the human-readable text."""
+    def _tag_repl(m: re.Match) -> str:
+        name = m.group(2)
+        if name[0].isupper() or name.lower() in _GENUI_LOWER_TAGS:
+            return ""
+        return m.group(0)
+
+    text = _GENUI_TAG_RE.sub(_tag_repl, text)
+    text = _GENUI_DIRECTIVE_RE.sub("", text)
+    text = _GENUI_PLACEHOLDER_RE.sub("", text)
+    text = re.sub(r"[ \t]+\n", "\n", text)
+    return re.sub(r"\n{3,}", "\n\n", text).strip("\n")
+
 
 HELP = """\
 Commands:
@@ -568,12 +605,12 @@ class ChatTUI(App):
                 now = time.monotonic()
                 if now - self._last_stream_update > 0.08:
                     self._last_stream_update = now
-                    shown = self._truncate_lines(full)
+                    shown = self._truncate_lines(_strip_genui(full))
                     md.update(self._bidi(shown) or "...")
-            self.last_response = full
-            final = self._truncate_lines(full)
+            self.last_response = _strip_genui(full)
+            final = self._truncate_lines(self.last_response)
             md.update(self._bidi(final) or "_(empty response)_")
-            self.recent_messages.append(f"{self.session.provider_name}: {full}")
+            self.recent_messages.append(f"{self.session.provider_name}: {self.last_response}")
             if thoughts:
                 msg = f"_thinking:_\n{thoughts[:2000]}"
                 await self._say(msg, cls="msg-meta")
