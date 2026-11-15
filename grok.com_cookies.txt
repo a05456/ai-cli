@@ -1,0 +1,24 @@
+# Netscape HTTP Cookie File
+# https://curl.haxx.se/rfc/cookie_spec.html
+# This is a generated file! Do not edit.
+
+.grok.com	TRUE	/	TRUE	1829288527	grok_device_id	02602d45-5e18-48b9-a6d0-b63fd1d221ee
+grok.com	FALSE	/	TRUE	1794730327	__cflb	04dToPG4CSm6fdc5L6oNsQET1uv1THbVdwn6EmMELm
+grok.com	FALSE	/	FALSE	1829288559	__cuid	c31b003c-0915-4ce6-ac71-8af7e922a3c0
+.grok.com	TRUE	/	FALSE	1829288559	__cuid	c31b003c-0915-4ce6-ac71-8af7e922a3c0
+grok.com	FALSE	/	TRUE	1794771735	__Host-id-token-nonce	oKRkqex9wyCfuan2MW5Hn83Py2oe1CvTHCun4x4p7Yo
+.grok.com	TRUE	/	FALSE	1826264540	mp_ea93da913ddb66b6372b89d97b1029ac_mixpanel	%7B%22distinct_id%22%3A%22%24device%3A92a02d10-29b7-4a6f-bda3-4a9a21cd8477%22%2C%22%24device_id%22%3A%2292a02d10-29b7-4a6f-bda3-4a9a21cd8477%22%2C%22%24initial_referrer%22%3A%22%24direct%22%2C%22%24initial_referring_domain%22%3A%22%24direct%22%2C%22__mps%22%3A%7B%22%24os%22%3A%22Windows%22%2C%22%24browser%22%3A%22Chrome%22%2C%22%24browser_version%22%3A157%2C%22country%22%3A%22IL%22%2C%22user_segment%22%3A%22consumer%22%7D%2C%22__mpso%22%3A%7B%22%24initial_referrer%22%3A%22%24direct%22%2C%22%24initial_referring_domain%22%3A%22%24direct%22%7D%2C%22__mpus%22%3A%7B%7D%2C%22__mpa%22%3A%7B%7D%2C%22__mpu%22%3A%7B%7D%2C%22__mpr%22%3A%5B%5D%2C%22__mpap%22%3A%5B%5D%2C%22initial_utm_source%22%3Anull%2C%22initial_utm_medium%22%3Anull%2C%22initial_utm_campaign%22%3Anull%2C%22initial_utm_content%22%3Anull%2C%22initial_utm_term%22%3Anull%7D
+.grok.com	TRUE	/	FALSE	1802504537	_gcl_au	1.1.1777935429.1794728538
+grok.com	FALSE	/	TRUE	1826264538	sa-user-id	s%253A0-3a661255-abd5-5495-5088-edeef3c3ff62.DablYY7qP7yUVJyJDxhYy8%252F8iuBkyYvwSBUlo6XMQIY
+grok.com	FALSE	/	TRUE	1826264538	sa-user-id-v2	s%253AOmYSVavVVJVQiO3u88P_Yk-xsX8.4PM0ryNUp23Cl48atFeK8l58I4lGzQ3Uec8opfLeOJU
+grok.com	FALSE	/	TRUE	1826264538	sa-user-id-v4	s%253ACiQwMWExZGUyOC0zMDQ3LTcwMWEtYmYyNS1mZmE2YzI0NjAyZDIQAxoERU1FQSAy.paGu%252BTM3jNVcm9VyuWyu8hAnMR1qg0M355SUJp1apjs
+.grok.com	TRUE	/	FALSE	1826264539	OptanonConsent	isGpcEnabled=0&datestamp=Sun+Nov+15+2026+09%3A42%3A19+GMT%2B0200+(%D7%A9%D7%A2%D7%95%D7%9F+%D7%99%D7%A9%D7%A8%D7%90%D7%9C+(%D7%97%D7%95%D7%A8%D7%A3))&version=202603.1.0&browserGpcFlag=0&isDntEnabled=0&isIABGlobal=false&hosts=&consentId=0c113121-4f43-4e79-8600-43a28c9a66b1&interactionCount=1&isAnonUser=1&prevHadToken=0&landingPath=https%3A%2F%2Fgrok.com%2F&groups=C0001%3A1%2CC0004%3A1%2CC0003%3A1%2CC0002%3A1&crTime=1794728539103
+.grok.com	TRUE	/	TRUE	1826264540	htjs_anonymous_id	a4626873-9d6d-41bf-8778-e149eff49e3e
+.grok.com	TRUE	/	TRUE	1826264540	htjs_sesh	{%22id%22:1794728540088%2C%22expiresAt%22:1794730340101%2C%22timeout%22:1800000%2C%22sessionStart%22:false%2C%22autoTrack%22:true}
+.grok.com	TRUE	/	TRUE	1810280555	sso	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uX2lkIjoiYWI2YmQwZmMtNTMwNy00ZDc3LWI4Y2UtZGMwMzI1ZWM5ODI3In0.iayl57lPcPCJlfxbHHDrpGkq7Q0lLiuIcGLCRo8_QxE
+.grok.com	TRUE	/	TRUE	1810280555	sso-rw	eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uX2lkIjoiYWI2YmQwZmMtNTMwNy00ZDc3LWI4Y2UtZGMwMzI1ZWM5ODI3In0.iayl57lPcPCJlfxbHHDrpGkq7Q0lLiuIcGLCRo8_QxE
+grok.com	FALSE	/	TRUE	1802504554	last-logged-in-with	GOOGLE
+.grok.com	TRUE	/	TRUE	0	x-userid	08c32aab-464c-47d1-ac17-825d456f27a8
+grok.com	FALSE	/	FALSE	1826264558	i18nextLng	en
+.grok.com	TRUE	/	TRUE	1826264529	cf_clearance	Cq-1FEN5x25gdEnoTpYKVnU28-lEaqGAzkMeLl_dF5BfCPEuHDWAOYdGkdxW55D8hnE1LYZUiwSuSeAMhZ7PdJVH1BP37pAuma3VfnyVpkRshPs60q4Hf2Ru6piQcIapktmF_q5-z7A_q5Gyf6voxNJR1glTB_VruyOtEGGFeDRRHzK5eJxK63CT9TQJ2CUwzjbUdIL1bO5ub5B8mRVZwtYky8hTGJR1AjD4d5yTLDCS4sfat9_uqOgyiQGKAWLZ3Wv0mlhBNsk9SiFfD78z2w_93vpDWxOohu8pmXxGxCAMtZTuDQ
+.grok.com	TRUE	/	TRUE	1794730329	__cf_bm	WzVzwBLjN5UBg2.2b07RDu5_3TXvbhvO9bhupdObYE0-1794728528.9012618-1.0.1.1-gHj_NO2RCTEbE07fk2RB4v4XI4_yYtbOKoHiniZxWzqIW4_Rxzn6.qgYP.xgMVFk_XDuany4AWXGh8kxFMtdJNTjTmRT06czEUDP11twxLe6KELIoXnONjHJN0Wqx8bW
