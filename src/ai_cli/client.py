@@ -17,12 +17,17 @@ from webai_provider import (
     create_provider,
 )
 
-from .cookies import parse_cookies, prepare_chatgpt_session, prepare_claude_session
+from .cookies import (
+    parse_cookies,
+    prepare_chatgpt_session,
+    prepare_claude_session,
+    prepare_grok_session,
+)
 
 STATE_DIR = Path.home() / ".ai-cli"
 CHATS_FILE = STATE_DIR / "chats.json"
 
-PROVIDERS = ("chatgpt", "claude")
+PROVIDERS = ("chatgpt", "claude", "grok")
 DEFAULT_PROVIDER = "chatgpt"
 
 
@@ -88,6 +93,8 @@ class ChatSession:
             cred = await asyncio.to_thread(
                 prepare_chatgpt_session, cookies, self.state_dir
             )
+        elif provider == "grok":
+            cred = prepare_grok_session(cookies, self.state_dir)
         else:
             cred = prepare_claude_session(cookies, self.state_dir)
         self.credential_file = cred

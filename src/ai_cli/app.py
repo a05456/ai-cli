@@ -1,4 +1,4 @@
-"""Textual TUI chat client for ChatGPT + Claude via webai-provider."""
+﻿"""Textual TUI chat client for ChatGPT, Claude and Grok."""
 
 from __future__ import annotations
 
@@ -21,11 +21,12 @@ from .client import ChatSession, load_saved, PROVIDERS, DEFAULT_PROVIDER
 from .claude_backend import ClaudeWebSession
 from .clipboard import copy_to_clipboard
 
-SESSION_CLASSES = {"chatgpt": ChatSession, "claude": ClaudeWebSession}
+SESSION_CLASSES = {"chatgpt": ChatSession, "claude": ClaudeWebSession, "grok": ChatSession}
 
 COOKIE_DOMAIN_FILES = {
     "chatgpt": "chatgpt.com_cookies.txt",
     "claude": "claude.ai_cookies.txt",
+    "grok": "grok.com_cookies.txt",
 }
 
 # ChatGPT's generative-UI markup: capitalized components (<AsyncImage/>,
@@ -57,7 +58,7 @@ def _strip_genui(text: str) -> str:
     """Remove ChatGPT rich-UI markup, keeping the human-readable text."""
     def _tag_repl(m: re.Match) -> str:
         name = m.group(2)
-        # <Entity value="Name" .../> carries its display text in an attribute —
+        # <Entity value="Name" .../> carries its display text in an attribute ג€”
         # keep it instead of dropping the entity name entirely.
         if name.lower() == "entity":
             vm = re.search(r'value\s*=\s*"([^"]*)"', m.group(0)) or re.search(
@@ -71,7 +72,7 @@ def _strip_genui(text: str) -> str:
     text = _GENUI_TAG_RE.sub(_tag_repl, text)
     text = _GENUI_DIRECTIVE_RE.sub("", text)
     text = _GENUI_PLACEHOLDER_RE.sub("", text)
-    # Incomplete constructs at the end of the buffer (mid-stream) — hide them
+    # Incomplete constructs at the end of the buffer (mid-stream) ג€” hide them
     # so raw markup doesn't flash before the closing '>' / '}' arrives.
     text = re.sub(r"<[A-Za-z/!][^>\n]*$", "", text)
     text = re.sub(r"\{[#@/:^][^}\n]*$", "", text)
@@ -83,7 +84,7 @@ def _strip_genui(text: str) -> str:
 HELP = """\
 Commands:
   /help                  show this help
-  /provider [name]       show or switch provider: chatgpt | claude
+  /provider [name]       show or switch provider: chatgpt | claude | grok
   /new                   start a new conversation
   /save [name]           persist current chat locally (~/.ai-cli/chats.json)
   /resume <name>         resume a saved chat (/chats lists them)
@@ -105,7 +106,7 @@ Commands:
   /exit, /quit           exit
 
 Tips:
-  - Enter sends. Shift+Enter (or Ctrl+J) inserts a newline — on terminals
+  - Enter sends. Shift+Enter (or Ctrl+J) inserts a newline ג€” on terminals
     that can't tell them apart, a backslash followed quickly by Enter works too.
   - To copy text: click on the response text to select it, then press Ctrl+C.
   - If clipboard doesn't work: use /print to suspend TUI and print text
@@ -114,7 +115,7 @@ Tips:
     to attach it to your message automatically.
   - Press Ctrl+X while the model is replying to cancel the request.
   - Note: Hebrew/Arabic text may appear reversed depending on your terminal.
-    This is a terminal limitation — WezTerm/kitty/iTerm handle BiDi correctly.
+    This is a terminal limitation ג€” WezTerm/kitty/iTerm handle BiDi correctly.
 """
 
 
@@ -122,7 +123,7 @@ class ChatInput(TextArea):
     """Multiline input: Enter submits, Shift+Enter / Ctrl+J inserts newline.
 
     Some terminals can't distinguish Shift+Enter and send a literal backslash
-    followed by Enter instead (e.g. VSCode's built-in terminal) — that pair is
+    followed by Enter instead (e.g. VSCode's built-in terminal) ג€” that pair is
     detected by timestamp and converted into a newline as well.
     """
 
@@ -259,7 +260,7 @@ class ChatTUI(App):
 
     async def _init_session(self) -> None:
         if not await self._connect_provider(self.provider):
-            self._set_status("not connected — set cookies and /provider")
+            self._set_status("not connected ג€” set cookies and /provider")
             return
         await self._post_connect()
 
@@ -323,7 +324,7 @@ class ChatTUI(App):
         if len(lines) <= self.max_lines:
             return text
         return "\n".join(lines[: self.max_lines]) + (
-            f"\n\n... ({len(lines) - self.max_lines} more lines — "
+            f"\n\n... ({len(lines) - self.max_lines} more lines ג€” "
             f"raise with /lines {self.max_lines * 2} or set 0)"
         )
 
@@ -386,11 +387,11 @@ class ChatTUI(App):
             )
         elif cmd == "provider":
             if not arg:
-                await self._say(f"Current provider: {self.session.provider_name}  (chatgpt | claude)")
+                await self._say(f"Current provider: {self.session.provider_name}  (chatgpt | claude | grok)")
                 return
             name = arg.lower()
             if name not in PROVIDERS:
-                await self._say(f"Unknown provider '{name}'. Use chatgpt or claude.", error=True)
+                await self._say(f"Unknown provider '{name}'. Use chatgpt, claude or grok.", error=True)
                 return
             if name == self.session.provider_name and self.session.adapter is not None:
                 await self._say(f"Already on '{name}'.")
@@ -512,7 +513,7 @@ class ChatTUI(App):
                 return
             if await self._connect_provider(self.session.provider_name, path):
                 await self._post_connect()
-                await self._say("Cookies updated — reconnected.")
+                await self._say("Cookies updated ג€” reconnected.")
         elif cmd == "history":
             try:
                 chats = await self.session.list_chats()
@@ -558,7 +559,7 @@ class ChatTUI(App):
 
     async def _send_message(self, raw: str) -> None:
         if self.busy:
-            await self._say("Model is still replying — press Ctrl+X to cancel.", error=True)
+            await self._say("Model is still replying ג€” press Ctrl+X to cancel.", error=True)
             return
         if self.session.adapter is None:
             await self._say("Not connected. Set cookies and /provider first.", error=True)
@@ -611,7 +612,7 @@ class ChatTUI(App):
                 elif isinstance(event, ThoughtDelta):
                     thoughts += event.text
                 elif isinstance(event, (ActionBegin, ActionDelta, ActionEnd)):
-                    pass  # tool activity — could be surfaced later
+                    pass  # tool activity ג€” could be surfaced later
                 elif isinstance(event, MessageMetadata):
                     metadata = event
                 elif isinstance(event, ConversationBound):

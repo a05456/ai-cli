@@ -1,12 +1,13 @@
 # ai-cli
 
-A full terminal chat client for **ChatGPT** and **Claude** web apps (not the
-official API) with a [Textual](https://textual.textualize.io/) TUI —
+A full terminal chat client for **ChatGPT**, **Claude** and **Grok** web apps
+(not the official APIs) with a [Textual](https://textual.textualize.io/) TUI —
 streaming replies, markdown rendering, file attachments, model switching,
 and persistent chats.
 
 Backends:
 - **ChatGPT** — [`webai-provider`](https://pypi.org/project/webai-provider/)
+- **Grok** — `webai-provider` (grok.com cookies; `sso` cookie required)
 - **Claude** — [`claude-webapi`](https://pypi.org/project/claude-webapi/)
   (aiohttp-based; chosen because `webai-provider`'s `curl_cffi` transport gets
   Cloudflare-challenged with HTTP 403 on claude.ai)
@@ -30,12 +31,15 @@ Each provider needs a browser cookie export:
   `__Secure-next-auth.session-token` (chunked `.0`/`.1` is fine).
 - **Claude**: log in to <https://claude.ai>, export cookies for `claude.ai`.
   Must contain `sessionKey` (and ideally `lastActiveOrg`).
+- **Grok**: log in to <https://grok.com> (or x.com), export cookies for
+  `grok.com`. Must contain the `sso` cookie.
 
 Place the files next to where you run the CLI with the conventional names:
 
 ```
 chatgpt.com_cookies.txt
 claude.ai_cookies.txt
+grok.com_cookies.txt
 ```
 
 …or point at them explicitly:
@@ -45,6 +49,7 @@ ai-cli --provider chatgpt --cookies /path/to/chatgpt.com_cookies.txt
 # or per-provider env vars:
 export AI_CLI_CHATGPT_COOKIES=/path/to/chatgpt.com_cookies.txt
 export AI_CLI_CLAUDE_COOKIES=/path/to/claude.ai_cookies.txt
+export AI_CLI_GROK_COOKIES=/path/to/grok.com_cookies.txt
 ```
 
 Inside the app, `/cookies <path>` re-points the current provider at a file and
@@ -67,7 +72,7 @@ Type a message and press **Enter**. Replies stream as markdown.
 
 | Command | Description |
 | --- | --- |
-| `/provider [name]` | Show or switch provider (`chatgpt`, `claude`) |
+| `/provider [name]` | Show or switch provider (`chatgpt`, `claude`, `grok`) |
 | `/new` | Start a new conversation |
 | `/save [name]` | Persist the current chat locally (`~/.ai-cli/chats.json`) |
 | `/resume <name>` | Resume a saved chat (`/chats` lists them) |

@@ -22,11 +22,13 @@ class CookieError(Exception):
 PROVIDER_DOMAINS = {
     "chatgpt": ("chatgpt.com",),
     "claude": ("claude.ai",),
+    "grok": ("grok.com", "x.com"),
 }
 
 PROVIDER_REQUIRED = {
     "chatgpt": "__Secure-next-auth.session-token",
     "claude": "sessionKey",
+    "grok": "sso",
 }
 
 
@@ -97,6 +99,12 @@ def parse_cookies(path: str | Path, provider: str) -> dict[str, str]:
                 f"'{required}' not found in {path}. "
                 "Log in to https://chatgpt.com and export cookies for chatgpt.com."
             )
+    elif provider == "grok":
+        if not any(name == required or name.startswith("sso-") for name in cookies):
+            raise CookieError(
+                f"'{required}' not found in {path}. "
+                "Log in to https://grok.com and export cookies for grok.com."
+            )
     elif required not in cookies:
         raise CookieError(
             f"'{required}' not found in {path}. "
@@ -120,6 +128,18 @@ def prepare_claude_session(cookies: dict[str, str], workdir: Path) -> Path:
     """Write the flat cookie dict webai-provider's HttpSession expects."""
     workdir.mkdir(parents=True, exist_ok=True)
     session_file = workdir / "claude_session.json"
+    session_file.write_text(json.dumps(cookies, ensure_ascii=False), encoding="utf-8")
+    try:
+        session_file.chmod(0o600)
+    except OSError:
+        pass
+    return session_file
+
+
+def prepare_grok_session(cookies: dict[str, str], workdir: Path) -> Path:
+    """Same flat cookie dict format for Grok (grok.com / x.com)."""
+    workdir.mkdir(parents=True, exist_ok=True)
+    session_file = workdir / "grok_session.json"
     session_file.write_text(json.dumps(cookies, ensure_ascii=False), encoding="utf-8")
     try:
         session_file.chmod(0o600)
