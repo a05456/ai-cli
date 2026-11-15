@@ -57,6 +57,13 @@ def _strip_genui(text: str) -> str:
     """Remove ChatGPT rich-UI markup, keeping the human-readable text."""
     def _tag_repl(m: re.Match) -> str:
         name = m.group(2)
+        # <Entity value="Name" .../> carries its display text in an attribute —
+        # keep it instead of dropping the entity name entirely.
+        if name.lower() == "entity":
+            vm = re.search(r'value\s*=\s*"([^"]*)"', m.group(0)) or re.search(
+                r"value\s*=\s*'([^']*)'", m.group(0)
+            )
+            return vm.group(1) if vm else ""
         if name[0].isupper() or name.lower() in _GENUI_LOWER_TAGS:
             return ""
         return m.group(0)
@@ -64,6 +71,11 @@ def _strip_genui(text: str) -> str:
     text = _GENUI_TAG_RE.sub(_tag_repl, text)
     text = _GENUI_DIRECTIVE_RE.sub("", text)
     text = _GENUI_PLACEHOLDER_RE.sub("", text)
+    # Incomplete constructs at the end of the buffer (mid-stream) — hide them
+    # so raw markup doesn't flash before the closing '>' / '}' arrives.
+    text = re.sub(r"<[A-Za-z/!][^>\n]*$", "", text)
+    text = re.sub(r"\{[#@/:^][^}\n]*$", "", text)
+    text = re.sub(r"\$\{[^}\n]*$", "", text)
     text = re.sub(r"[ \t]+\n", "\n", text)
     return re.sub(r"\n{3,}", "\n\n", text).strip("\n")
 
